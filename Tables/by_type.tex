@@ -1,0 +1,46 @@
+\begin{table}[th]
+    \centering
+    \begin{tabularx}{0.95\textwidth}{llllXl}
+    \toprule
+        \shortstack[l]{Type\\\phantom{t}} & \shortstack[l]{Node\\constraint} & \shortstack[l]{Edge\\constraint} & \shortstack[l]{Half-edge\\constraint} & \shortstack[l]{Proof of\\complexity} & \textbf{\shortstack[l]{Deterministic\\complexity}}\\
+    \midrule
+        A & $\x\x\xpl$ & $\x\x\x$ & $\n\n$ & [TBD] & \textbf{Unsolvable}\\
+    \addlinespace
+        B1.a & $\y\n\npl$ & $\n\x\x$ & $\x\x$ & \textsf{I.a} from \cite{balliu-2019} & \\
+        B1.b & $\n\npl\y$ & $\x\x\n$ & $\x\x$ & \textsf{I.b} from \cite{balliu-2019} & \\
+        B1.c & $\n\x\xpl$ & $\y\n\n$ & $\x\x$ & \textsf{I.c} from \cite{balliu-2019} & \\
+        B1.d & $\x\xpl\n$ & $\n\n\y$ & $\x\x$ & \textsf{I.d} from \cite{balliu-2019} & \\
+    \addlinespace
+        B2.a & $\n\n\npl$ & $\x\x\x$ & $\x\x$ & \textsf{II.a} from \cite{balliu-2019} & \\
+        B2.b & $\x\x\xpl$ & $\n\n\n$ & $\x\x$ & \textsf{II.b} from \cite{balliu-2019} & \\
+    \addlinespace
+        F1.a & $\x\xpl\n$ & $\x\x\x$ & $\n\y$ & [TBD] & \\
+        F1.b & $\n\x\xpl$ & $\x\x\x$ & $\y\n$ & [TBD] & \\
+    \addlinespace
+        F2.a & $\y\npl\y$ & $\n\y\n$ & $\n\y$ & [TBD] & \\
+        F2.b & $\y\npl\y$ & $\n\y\n$ & $\y\n$ & [TBD] & \\
+    \addlinespace
+        F3.a & $\ypl\n\y$ & $\x\x\n$ & $\n\y$ & [TBD] & \\
+        F3.b & $\y\n\ypl$ & $\n\x\x$ & $\y\n$ & [TBD] & \\
+        \midrule
+        B3.a & non-empty & $\y\y\y$ & $\y\y$ & \textsf{III.a} from \cite{balliu-2019} & \boldmath$O(1)$\\
+        B3.b & $\y\y\ypl$ & non-empty & non-empty & \textsf{III.b} from \cite{balliu-2019} &\\
+    \addlinespace
+        B4.a & $\y\x\xpl$ & $\y\x\x$ & $\y\x$ & \textsf{IV.a} from \cite{balliu-2019} &\\
+        B4.b & $\x\xpl\y$ & $\x\x\y$ & $\x\y$ & \textsf{IV.b} from \cite{balliu-2019} &\\
+        \midrule
+        B5.a & $\y\npl\y$ & $\n\y\n$ & $\y\y$ & \textsf{V.a} from \cite{balliu-2019} & \boldmath$\Theta(n)$\\
+        B5.b & $\n\y\n$ & $\y\npl\y$ & $\y\y$ & \textsf{V.b} from \cite{balliu-2019} & \\
+    \addlinespace
+        B6.a & $\npl\y\x$ & $\x\y\n$ & $\y\y$ & \textsf{VI.a} from \cite{balliu-2019} & \\
+        B6.b & $\x\y\npl$ & $\n\y\x$ & $\y\y$ & \textsf{VI.b} from \cite{balliu-2019} & \\
+    \addlinespace
+        G1.a & $\npl\y\y$ & $\x\y\n$ & $\n\y$ & [TBD]\\
+        G1.b & $\y\y\npl$ & $\n\y\x$ & $\y\n$ & [TBD]\\
+        \midrule
+        B7 &&&&&\boldmath$\Theta(\log n)$\\
+        \bottomrule
+    \end{tabularx}
+    \caption{$(1,2,d)$ binary labelling problems}
+    \label{tab:blclass}
+\end{table}

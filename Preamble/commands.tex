@@ -1,0 +1,67 @@
+% math hyphen
+\mathchardef\mhyphen="2D
+
+% complexity fonts
+\let\prob\lang
+\newcommand{\thprob}[1]{\emph{\textsc{#1}}}
+\newclass{\LCL}{LCL}
+\newclass{\OLCL}{1\mhyphen LCL}
+\newclass{\LCEL}{LCEL}
+\newclass{\hLCEL}{\mhyphen LCEL}
+\newclass{\hLCEIL}{\mhyphen LCEL^+}
+\newclass{\hRLCEL}{\mhyphen RLCEL}
+
+% delimiters
+\newcommand{\Set}[1]{\left\{#1\right\}}
+\newcommand{\multiSet}[1]{\left\lbrace \! \left\lbrace#1\right\rbrace \! \right\rbrace}
+\newcommand{\dv}{\,\middle|\,}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\let\card\abs
+%\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\tuple}{\langle}{\rangle}
+%\let\scal\tuple
+
+% math letters
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Gc}{\mathcal{G}}
+\newcommand{\Vc}{\mathcal{V}}
+\newcommand{\Ec}{\mathcal{E}}
+\newcommand{\Pb}{\mathcal{P}}
+
+%% shortcuts
+\newcommand{\airquotes}[1]{``#1''} % I don't have the backquote on my keyboard
+
+% set text shortcuts
+\newcommand{\sand}{\text{ and }}
+\newcommand{\sor}{\text{ or}}%no space on this one it's often at line end
+
+% complexity class shortcuts
+\newcommand{\triv}{{\boldmath$\ubound(1)$}}
+\newcommand{\uns}{\textbf{unsolvable}}
+\newcommand{\unk}{\textbf{depends}}
+\newcommand{\tlog}{{\boldmath$\tbound(\log n)$}}
+\newcommand{\glob}{{\boldmath$\tbound(n)$}}
+
+% bound shortcuts (readability and so I stop typing \Omega when I mean \Theta and vice versa)
+\newcommand{\lbound}{\Omega}
+\newcommand{\lstrictbound}{\omega}
+\newcommand{\tbound}{\Theta}
+\newcommand{\ustrictbound}{o}
+\newcommand{\ubound}{O}
+
+% problem family shortcuts
+\newcommand{\emp}{\type{E}\xspace}
+\newcommand{\Tloc}{\type{LT}\xspace}
+
+% color shortcuts
+\newcommand{\colg}[1]{{\color{darkgreen}#1}}
+\newcommand{\colr}[1]{{\color{darkred}#1}}
+\newcommand{\x}{\makebox[\widthof{0}][c]{$\ast$}}
+\newcommand{\xpl}{\x^+}
+\newcommand{\y}{\colg{1}}
+\newcommand{\ypl}{\colg{1^+}}
+\newcommand{\n}{\colr{0}}
+\newcommand{\npl}{\colr{0^+}}

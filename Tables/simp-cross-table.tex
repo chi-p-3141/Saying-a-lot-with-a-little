@@ -1,0 +1,27 @@
+\renewcommand{\arraystretch}{1.25}
+\begin{table}[th]
+    \centering
+    \begin{tabular}{|c|cc|cc|cc|}
+        \hline
+        Family & \multicolumn{2}{c|}{$\n\y$} & \multicolumn{2}{c|}{$\y\n$} & \multicolumn{2}{c|}{$\y\y$} \\
+        \hline
+        \textsf{III.a} ($\n\xpl\n$) & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$O(1)$ & B3.a\\
+        \textsf{III.a} ($\n\xpl\y$) & \boldmath$O(1)$ & B4.b & \textbf{(UN)} & F1.b & \boldmath$O(1)$ & B3.a\\
+        \textsf{III.a} ($\y\xpl\n$) & \textbf{(UN)} & F1.a & \boldmath$O(1)$ & B4.a & \boldmath$O(1)$ & B3.a\\
+        \textsf{III.a} ($\y\xpl\y$) & \boldmath$O(1)$ & B4.b & \boldmath$O(1)$ & B4.a & \boldmath$O(1)$ & B3.a\\
+        \textsf{III.b} & \boldmath$O(1)$ & B3.b & \boldmath$O(1)$ & B3.b & \boldmath$O(1)$ & B3.b\\
+        \textsf{IV.a}  & \boldmath$O(1)$ & B4.a &\multicolumn{2}{c|}{\boldmath$O(1)$/\textbf{(UN)}}& \boldmath$O(1)$ & B4.a\\
+        \textsf{IV.b}  &\multicolumn{2}{c|}{\boldmath$O(1)$/\textbf{(UN)}}& \boldmath$O(1)$ & B4.b & \boldmath$O(1)$ & B4.b\\
+        \textsf{V.a}   & \textbf{(UN)} & F2.a & \textbf{(UN)} & F2.b & \boldmath$\Theta(n)$ & B5.a\\
+        \textsf{V.b}   & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B5.b\\
+        \textsf{VI.a} ($\colr{0^+}\y\n$)  & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B6.a\\
+        \textsf{VI.a} ($\colr{0^+}\y\y$)  & \textbf{(UN)} & F1.a & \boldmath$\Theta(n)$ & G1.b & \boldmath$\Theta(n)$ & B6.a\\
+        \textsf{VI.b} ($\n\y\colr{0^+}$) & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B6.b\\
+        \textsf{VI.b} ($\y\y\colr{0^+}$) & \boldmath$\Theta(n)$ & G1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B6.b\\
+        \textsf{VII.a}   & & & & &\boldmath$\Theta(\log n)$& B7.a \\
+        \hline
+    \end{tabular}
+    \caption{Quick lookup table based on the families from \cite{balliu-2019}. Types \textsf{I} and \textsf{II} are excluded for being trivially unsolvable, and so are problems with $\n\n$ half-edge constraints.}
+    \label{tab:short-lookup}
+\end{table}
+\renewcommand{\arraystretch}{1}

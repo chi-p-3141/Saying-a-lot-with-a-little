@@ -1,0 +1,467 @@
+\documentclass[12pt,a4paper]{article}
+\input{Preamble/packages}
+\input{Preamble/format}
+\input{Preamble/commands}
+
+\addbibresource{bib}
+
+\begin{document}
+
+\section{Binary Labelling (Extended)}
+We split type \type{VII} problems from \cite{balliu-2019} into 4 types:
+\begin{itemize}
+    \item type \type{VII} now only contains $(1,2)$-resilient and $(2,1)$-resilient problems,
+    \item type \type{VIII} are equivalent to \emph{hypergraph matching} problems,
+    \item type \type{IX} are equivalent to \emph{bipartite matching} problems, and
+    \item type \type{X} are equivalent to \emph{edge grabbing} problems.
+\end{itemize}
+\input{Tables/extended_binlab}
+\clearpage
+\begin{comment}
+\section{Half-edge \texorpdfstring{$(k,\Delta)\hLCEL$}{k,delta-LCEL}}
+\input{Tables/by_type}
+Class A is a trivially unsolvable class (no valid configuration for half-edges).
+
+Problem classes B correspond to the classes from \cite{balliu-2019}, with the half-edge constraint set to $\colg{11}$. Some allow for relaxations:
+\begin{itemize}
+    \item Classes B1 and B2 include all possible restrictions of the half-edge constraints, as they cannot make the problem harder than unsolvable.
+    \item Class B3.b includes the cases $\y\n$ and $\n\y$, which still allow for the trivial solution of "let white vertices choose what to do"
+    \item Classes B4.a and B4.b also include the cases $\y\n$ and $\n\y$ respectively, which still allow for the trivial solutions "no half-edge is selected" and "all half-edges are selected".
+\end{itemize}
+
+Problem classes F are "forbidden subgraph" classes; we show they are unsolvable on some specific small trees.
+
+Problem classes G are global problems that derive from global problems without half-edge constraints; since they are strictly harder than corresponding problems in B classes, we only need to show they are solvable. 
+\input{Tables/simp-cross-table}
+%\input{Tables/cross-table}
+\clearpage
+\end{comment}
+\section{\texorpdfstring{$(k,\Delta)\hLCEL$}{k,delta-LCEL}}
+\subsection{Definitions}
+Notation: we use $\multiSet{}$ to denote multisets, and for a set $X$ and $k\in\N$ we define
+$$X^{\multiSet{k}}:=\Set{\text{multisets with universe }X\text{ of cardinality }k}$$
+\begin{defn}
+    Given a graph $G=(V,E)$, we call \emph{half-edge set} the set
+    $$H_G=\Set{(v,e)\in V\times E\dv e\text{ is adjacent to }v}$$
+    We can interpret a pair $(v,e)\in H_G$ as the half of $e$ that is adjacent to $v$.
+\end{defn}
+\begin{defn}
+    We define as \emph{half-edge labelling} with alphabet $\Sigma$ a function $\beta:H_G\to\Sigma$.
+\end{defn}
+\begin{defn}[$\LCEL$]
+    We call a $(k,\Delta)\hLCEL$ (Locally Checkable Edge Labelling) a problem described by a tuple $(\Sigma,\Vc,\Ec)$ where:
+    \begin{itemize}
+        \item $\Sigma$ is an alphabet of size $k$ (often we will assume $\Sigma=[k]=\Set{0,\ldots,k-1}$),
+        \item $\Vc$ is a set of multisets with universe $\Sigma$ of cardinality $\leq \Delta$, and
+        \item $\Ec$ is a set of unordered pairs of elements of $\Sigma$.
+    \end{itemize}
+    An \emph{instance} of this problem is a graph $G=(V,E)$ such that $\deg(v)\leq\Delta$ for all $v\in V$; a solution is a half-edge labelling such that
+    \begin{itemize}
+        \item for each $v\in V$ we have $\beta(v):=\multiSet{\beta(v,\Set{u,v})\dv (v,\Set{u,v})\in H_G}\in\Vc$, and
+        \item for each $\Set{u,v}\in E$ we have $\beta(\Set{u,v}):=\multiSet{\beta(u,\Set{u,v}),\beta(v,\Set{u,v})}\in\Ec$.
+    \end{itemize}
+\end{defn}
+\begin{defn}
+    Given a problem $\Pi=(\Sigma,\Vc,\Ec)\in(k,\Delta)\hLCEL$ and $1\leq i\leq \Delta$ we define the \emph{$i$-th degree restraint} $\Vc_i$ as the subset of $\Vc$ containing all multisets of cardinality $i$. If $\Vc_i=\Sigma^{\multiSet{i}}$ we call $i$ an \emph{unbounded} degree; if $\Vc_i=\emptyset$ we call $i$ a \emph{forbidden} degree.
+\end{defn}
+\begin{defn}[$\class{RLCEL}$]
+    We call a $(k,d)\hRLCEL$ (Restricted Locally Checkable Edge Labelling) a problem described by a tuple $(\Delta,\Sigma,\Vc,\Ec)$ where:
+    \begin{itemize}
+        \item $\Sigma$ is an alphabet of size $k$ (often we will assume $\Sigma=[k]=\Set{0,\ldots,k-1}$),
+        \item $\Vc$ is a subset of $\Sigma^{\multiSet{d}}$, and
+        \item $\Ec$ is a set of unordered pairs of elements of $\Sigma$.
+    \end{itemize}
+    An \emph{instance} of this problem is a graph $G=(V,E)$ such that $\deg(v)\leq\Delta$ for all $v\in V$; a solution is a half-edge labelling such that
+    \begin{itemize}
+        \item for each $v\in V$ of degree $d$ we have $\beta(v):=\multiSet{\beta(v,\Set{u,v})\dv (v,\Set{u,v})\in H_G}\in\Vc$, and
+        \item for each $\Set{u,v}\in E$ we have $\beta(\Set{u,v}):=\multiSet{\beta(u,\Set{u,v}),\beta(v,\Set{u,v})}\in\Ec$.
+    \end{itemize}
+\end{defn}
+\begin{defn}
+    Let $\Pi=(\Delta,\Sigma,\Vc,\Ec)$ be a $(k,\Delta)\hLCEL$ and let $1\leq d\leq \Delta$ be a natural number. We construct the $d$-degree relaxation of $\Pi$ as $\Pi_d=(\Delta,\Sigma,\Vc',\Ec)$ where
+    $$\Vc':=\Vc\bigcup_{\substack{1\leq k\leq \Delta\\k\neq d}}\Sigma^{\multiSet{k}}$$
+    In practice, this means nodes of degree other than $d$ become unbounded.
+\end{defn}
+\begin{obs}
+    $\Pi_d$ is always an easier problem than $\Pi$.
+\end{obs}
+\begin{lem}
+    Let $\Pi$ be a $(k,\Delta)\hLCEL$ problem and let $\Pi_d$ be its relaxation of degree $d$. Then there is an expression of $\Pi_d$ in $(k,d)\hRLCEL$.
+\end{lem}
+\subsection{Results}
+We show some simple results that hold for every class $(k,\Delta)\hLCEL$.
+\begin{lem}
+    Any problem for which $\Ec=\emptyset$ or which has a forbidden degree is unsolvable.
+\end{lem}
+We call these problems \emph{empty} problems, denoted as $\emp$.
+\begin{lem}
+    Any problem for which $\Ec=\Sigma^{\multiSet{2}}$ which is not empty is $O(1)$.
+\end{lem} %add proof?
+We call these problems \emph{locally trivial} problems, denoted as $\Tloc$.
+\begin{defn}
+    Let $\Pi=(\Sigma,\Vc,\Ec)$ be a $(k,\Delta)\hLCEL$ problem. We call $\Pi$ \emph{verbose} if there is a $\chi\in\Sigma$ for which either
+    \begin{itemize}
+        \item there is no pair in $\Ec$ which contains $\chi$, or
+        \item for all $1\leq d\leq \Delta$, there is no multiset in $\Vc_d$ containing $\chi$.
+    \end{itemize}
+\end{defn}
+\begin{obs}
+    A verbose $(k,\Delta)\hLCEL$ problem is naturally equivalent to a $(k-1,\Delta)\hLCEL$ problem.
+\end{obs}
+\begin{defn}
+    Let $\Pi=(\Sigma,\Vc,\Ec)$ be a $(k,\Delta)\hLCEL$ problem and let $p\in\N$ be $1\leq p<\Delta$. We call $\Pi$ \emph{$p$-completable} if
+    \begin{enumerate}
+        \item for each $\chi\in\Sigma$ there is a pair in $\Ec$ which contains $\chi$,
+        \item for all $d$ such that $1\leq d\leq p$ we have $\Vc_d=\Sigma^{\multiSet{d}}$ (the degree $d$ is unbounded), and
+        \item for all $X\in\Sigma^{\multiSet{p}}$ and $d$ such that $p < d\leq \Delta$ there is a multiset $V\in\Vc_d$ containing $X$.
+    \end{enumerate}
+\end{defn}
+\begin{lem}
+    A problem is verbose iff it is not $1$-completable.
+\end{lem}
+Intuitively, we can read the definition above as \airquotes{any node which already has at most $p$ labelled edges has a valid way to complete the labelling around itself}.
+\begin{lem}
+    Every $1$-completable problem is solvable on trees.
+\end{lem}
+\begin{proof}
+    Choose an arbitrary node of the tree to serve as a root, and orient all edges of the tree away from the root; this means every node expect the root has exactly one incoming edge. Since the problem is not-empty, choose a valid configuration of half-edges for the root node degree, and label the half-edges randomly with that configuration; since the problem is not verbose, for each labelled half-edge we can pick a valid label for the other half of the edge. By repeating this process, every node receives a label from its incoming edge, and since the problem is $1$-completable every node is either happy with the result or can complete its own labelling.
+\end{proof}
+\subsubsection{Rake-and-agree decomposition}
+We define a rake-and-agree procedure, a slight relaxation of the rake-and-compress procedure from the paper.
+\begin{defn}
+    Let $G=(V,E)$ be a graph and $c:V\to\Set{r,g}$ a red-green labelling of the nodes. We define the set of \emph{agreeable} nodes as
+    \begin{align*}
+        agree(G,c):&=\Set{v\in V\dv c(v)=g\sand\deg(v)\leq 2}\\
+        &\cup\Set{v\in V\dv c(v)=r\sand\deg(v)\leq 1}\\
+        &\cup\Set{v\in V\dv \begin{aligned}
+            &c(v)=r\sand\deg(v)=2\sand\\&\exists u\sim v\text{ such that }c(u)=r\sand\deg(u)\leq 2
+        \end{aligned}}
+    \end{align*}
+\end{defn}
+\begin{defn}
+    Let $G=(V,E)$ be a graph and $c:V\to\Set{r,g}$ a red-green labelling of the nodes. We define a procedure $RA(G,c)$ that partitions the set of nodes $V$ into non-empty \emph{layers} $R_1,\ldots,R_L$ such that
+    \begin{align*}
+        G_1&=G;\\
+        R_i&=agree(G,c);\\
+        G_{i+1}&=G_i\smallsetminus R_i
+    \end{align*}
+\end{defn}
+\begin{lem}\label{lem:es-decomposition}
+    $RA(G,c)$ terminates after $L=O(\log n)$ layers.
+\end{lem}
+\begin{proof}
+    We claim that at each step we remove at least one fourth of the remaining nodes; that is, $\card{R_i}\geq\card{G_i}/4$. Let $G=(V,E)$ be any tree with $n$ vertices and a green-red labelling; let:
+    \begin{itemize}
+        \item $n_1$ be the number of vertices of degree $1$,
+        \item $g_2$ be the number of green vertices of degree $2$,
+        \item $r_2$ be the number of red vertices of degree $2$,
+        \item $n_3$ be the number of vertices of degree $\geq 3$.
+    \end{itemize}
+    Clearly $n_1+g_2+r_2+n_3=n$ and since there are $n-1$ edges we have 
+    $$2n-2=2n_1+2g_2+2r_2+2n_3-2\geq n_1+2g_2+2r_2+3n_3\Rightarrow n_1\geq n_3$$
+    Let $k\leq r_2$ be the number of red vertices of degree $2$ not adjacent to another red vertex of degree $\leq 2$; since vertices of this type are not adjacent to each other and they're not leaves, $k\leq n/2$. Since the $n_1$ vertices of degree $1$ are removed, if $n_1\geq n/4$ the procedure removes at least $n/4$ vertices; assume $n_3\leq n_1<n/4$. Then the procedure removes
+    $$n_1+g_2+r_2-k=n-n_3-k>n-n/2-n/4=n/4$$
+    vertices in one round; we repeat this procedure $\ceil{\log_{4/3}n}+1$ times, so that every node gets removed and we obtain the layer decomposition.
+\end{proof}
+\begin{lem}\label{lem:2comp}
+    Every $2$-completable problem is $O(\log n)$ on trees.
+\end{lem}
+\begin{proof}
+    Label each vertex as green, and run $RA(G;c)$; choose an arbitrary pair $\multiSet{\chi_1,\chi_2}\in\Ec$. Then iterate through the layers in reverse order; in each round, vertices of the selected layer receive messages from each of their neighbours and label their edges as follows:
+    \begin{enumerate}
+        \item if their neighbour is from a layer with a higher index, they learn a solution for the edge between them; 
+        \item if their neighbour is from the same layer, they agree to label the edge between them as $\multiSet{\chi_1,\chi_2}$, choosing the direction arbitrarily (eg by higher ID),
+        \item if their neighbour is from a layer with a lower index, they choose a solution for the edge between them.
+    \end{enumerate}
+    This procedure runs in $O(\log n)$ time; we show that the nodes can always choose a valid solution for edges type 3, meaning the algorithm is correct.
+    
+    Let $v\in V_k$: since $v$ is green $\deg(v)\leq 2$ in $G_k$ so $v$ has at most two edges of types 1 and 2: since the problem is $2$-completable $v$ can pick a solution that is compatible with those edges and arbitrarily assign the other values to edges of type 3.
+\end{proof}
+\section{\texorpdfstring{$(2,\Delta)\hLCEL$}{2,delta-LCEL} on trees}
+We study specifically the class $(2,\Delta)\hLCEL$ on trees.
+\begin{obs}
+    The class $(2,d')\hRLCEL$ on trees corresponds to set of binary labelling problems from \cite{balliu-2019} with $d=d'$ and $\delta=2$. 
+\end{obs}
+This observation tells us two things:
+\begin{enumerate}
+    \item We can get simple lower bounds for all problems in $(2,\Delta)\hLCEL$ by looking at all its $d$-degree relaxations as binary labelling problems.
+    \item We can express all problems in $(2,d)\hRLCEL$ and consequently in $(2,\Delta)\hLCEL$ as collections of binary strings.
+\end{enumerate}
+A simple but important result from the same paper gives an easy way to find equivalent problems:
+\begin{lem}[{\cite[Observation 3.2]{balliu-2019}}]\label{lem:equiv}
+    Given a problem $\Pi=(\Set{\n,\y},\Vc,\Ec)\in(2,\Delta)\hLCEL$ we can construct an equivalent problem $\overline{\Pi}=(\Set{\n,\y},\overline{\Vc},\overline{\Ec})$ where $\overline{\Vc},\overline{\Ec}$ are constructed by changing every $0$ in the multisets to $1$ and vice versa; in binary string notation, this is done by reversing the string.
+\end{lem}
+The objective of this section is to prove the following result:
+\begin{thm}\label{thm:class}
+Problems in $(2,\Delta)\hLCEL$ on trees are either unsolvable, $O(1)$, $\tbound(\log n)$, or $\tbound(n)$; none of those four classes are empty. Additionally, which class a problem belongs to can be determined in time linear to the size of the problem description.
+\end{thm}
+\begin{proof}
+    The results of \myref{sec:trivial}, \myref{thm:or}, \myref{thm:eg} and \myref{thm:es} cover all possible cases.
+\end{proof}
+\subsection{Trivial results}\label{sec:trivial}
+To prove \myref{thm:class} we classify problems based on their $\Ec$. The simpler results are summarized in \myref{tab:edge-class} and proven below; the less trivial ones are in following sections.
+\input{Tables/edge-class}
+
+\begin{lem}
+    Problems in \emp are unsolvable.
+\end{lem}
+\begin{lem}
+    Problem in \Tloc are either empty or $O(1)$.
+\end{lem}
+\begin{lem}
+    Let $\Pi$ be a $(2,\Delta)\hLCEL$ problem with $\Vc_d=\npl\y$ for some $d\leq\Delta$ and $\Ec=\x\x\n$. Then $\Pi$ is unsolvable.
+\end{lem}
+\begin{proof}
+    Consider the tree composed of two degree $d$ vertices connected by an edge and $2d-2$ leaves. Both vertices need to select all of their adjacent half-edges, but we cannot select both halves of the edge connecting them, so the problem is unsolvable.
+\end{proof}
+\begin{cor}
+    Let $\Pi$ be a $(2,\Delta)\hLCEL$ problem with $\Vc_d=\y\npl$ for some $d\leq\Delta$ and $\Ec=\n\x\x$. Then $\Pi$ is unsolvable.
+\end{cor}
+\begin{cor}\label{cor:uns-eg}
+    Problems in \type{EG} with $\Vc_1\in\Set{\n\n,\n\y}$ are unsolvable.
+\end{cor}
+\begin{cor}
+    Problems in \type{ER} with $\Vc_1\in\Set{\n\n,\y\n}$ are unsolvable.
+\end{cor}
+\begin{cor}\label{cor:uns-or}
+    Problems in \type{OR} with $\Vc_1\in\Set{\n\n,\n\y,\y\n}$ are unsolvable.
+\end{cor}
+\begin{lem}\label{lem:all-empty}
+    Let $\Pi$ be a $(2,\Delta)\hLCEL$ problem with $\Ec=\y\x\x$ and $\Vc_i=\y\xpl$ for every $1\leq i\leq \Delta$. Then $\Pi$ is solvable in zero rounds.
+\end{lem}
+\begin{proof}
+    Every vertex can select none of its adjacent edges.
+\end{proof}
+\begin{cor}
+    Let $\Pi$ be a $(2,\Delta)\hLCEL$ problem with $\Ec=\x\x\y$ and $\Vc_i=\xpl\y$ for every $1\leq i\leq \Delta$. Then $\Pi$ is solvable in zero rounds.
+\end{cor}
+\begin{lem}
+    Problems in \type{AW} or \type{AB} are either $O(1)$ or unsolvable.
+\end{lem}
+\begin{proof}
+    Every problem in \type{AW} is equivalent to a problem in \type{AB} and vice versa by \myref{lem:equiv}; WLOG we can prove the result for only \type{AW}. The only possible combination of edges allowed is \airquotes{no half-edges selected}; if every degree accepts this solution (that is, if every $\Vc_i$ is of the form $\y\xpl$) then they can output it in zero rounds. Else, the problem is unsolvable.
+\end{proof}
+\begin{lem}\label{lem:edgesel}
+    Problems in \type{ES} with $\Vc_1\in\Set{\n\n,\n\y,\y\n}$ are either $O(1)$ or unsolvable.
+\end{lem}
+\begin{proof}
+    If $\Vc_1=\n\n$ the problem is empty and so unsolvable; WLOG we consider problems with $\Vc_1=\y\n$, since they are equivalent to problems with $\Vc_1=\n\y$ and vice versa by \myref{lem:equiv}. If all $\Vc_i$ are of the form $\y\xpl$, the problem is solvable in zero rounds by \myref{lem:all-empty}; else, let $d$ be a degree such that $\Vc_d=\n\xpl$. Construct a star-shaped tree with the center of degree $d$ and $d$ leaves around it; each of the leaves wants their adjacent half-edge to be empty, so every opposite half-edge also has to be empty; but the center will not accept all empty half-edges, so the problem is unsolvable.
+\end{proof}
+\subsection{Orientation problems}
+We call problems with $\Ec=\n\y\n$ orientation problems, as we can interpret them as selecting exactly one \airquotes{head} (or \airquotes{tail}) for each edge.
+\begin{thm}\label{thm:or}
+    Orientation problems are either unsolvable, $O(1)$, $\tbound(\log n)$, or $\tbound(n)$; with all the classes being non-empty. It is possible to decide which class a problem belongs to in time linear to the problem description size.
+\end{thm}
+\begin{proof}
+    Let $\Pi=(\Set{\n,\y},\Vc,\n\y\n)$ be an orientation problem. We proved in \myref{cor:uns-or} that if $\Vc_1\in\Set{\n\n,\y\n,\n\y}$ then $\Pi$ is unsolvable; assume that $\Vc_1=\y\y$.
+    
+    Consider the $\Vc_d$ for $1\leq d \leq \Delta$, and the following cases (where each time, we assume none of the above happen):
+    \begin{enumerate}
+        \item $\Vc_d=\n\n\npl$ for any $d$: the problem is empty, and so unsolvable.
+        \item $\Vc_d=\y\n\npl$ or $\Vc_d=\npl\n\y$ for any $d$: the $d$-degree relaxation is a binary labelling problem of family \textsf{I.a} or \textsf{I.b}, so $\Pi$ is unsolvable.
+        \item[$\bigstar$] If none of the above happen, $\Pi$ is $1$-completable, and so solvable.
+        \item $\Vc_d=\y\npl\y$ for any $d$: the $d$-degree relaxation is a binary labelling problem of family \textsf{V.a}, so $\Pi\in\tbound(n)$.
+        \item $\Vc_d=\npl\y\x$ or $\Vc_d=\x\y\npl$ for any $d$: the $d$-degree relaxation is a binary labelling problem of family \textsf{VI.a} or \textsf{VI.b}, so $\Pi\in\tbound(n)$.
+        \item[$\bigstar$] If none of the above happen, $\Pi$ is $2$-completable, and so $O(\log n)$.
+        \item $\Vc_d=\y\y\ypl$ for all $d$: we can find a solution in $O(1)$ rounds by orienting all edges from lowest to highest ID, or any other deterministic method to choose one of two nodes.
+        \item All other cases: since $5$ doesn't happen, we know there is at least one $d$ such that $\Vc_d\neq\y\ypl$; then the $d$-degree relaxation of $\Pi$ is not a binary labelling problem of types \type{III} or \type{IV}, so it is $\lstrictbound(1)$ and specifically $\lbound(\log n)$. Additionally, if $1\mhyphen 4$ do not happen, $\Pi$ is $2$-completable and so $O(\log n)$; then $\Pi\in\tbound(\log n)$
+    \end{enumerate}
+\end{proof}
+\subsection{Edge Grabbing and Releasing problems}
+Through this section we will analyse edge grabbing problems ($\Ec=\y\y\n$); by \myref{lem:equiv} all the results apply to the equivalent edge releasing ($\Ec=\n\y\y$) problems.
+\begin{lem}
+    Let $\Delta,d\in\N$ such that $1\leq d\leq\Delta$ and let $\Pi=(\Set{\n,\y},\Vc,\y\y\n)$ be a $(2,\Delta)\hLCEL$ edge grabbing problem such that $\Vc_d=\y\xpl$. Then the problem $\Pi'=(\Set{\n,\y},\Vc',\y\y\n)$, where $\Vc'=\Vc\cup\Sigma^{\multiSet{d}}$ (the $d$-degree is unbounded) is equivalent to $\Pi$.
+\end{lem}
+\begin{proof}
+    Any solution to $\Pi$ is trivially a solution to $\Pi'$; let $X$ be a solution to $\Pi'$. In zero rounds, all nodes of degree $d$ can choose any selected adjacent half-edges and unselect them; this does not break any edge constraints and outputs a valid solution for $\Pi$.
+\end{proof}
+\begin{thm}\label{thm:eg}
+    Edge grabbing problems are either unsolvable, $O(1)$, $\tbound(\log n)$, or $\tbound(n)$; with all the classes being non-empty. It is possible to decide which class a problem belongs to in time linear to the problem description size.
+\end{thm}
+\begin{proof}
+    Let $\Pi=(\Set{\n,\y},\Vc,\y\y\n)$ be an edge grabbing problem.
+    
+    Consider the $\Vc_d$ for $1\leq d \leq \Delta$; by the previous lemma, without loss of generality we can assume any $\Vc_d$ of the form $\y\xpl$ is of the form $\y\ypl$. Consider the following cases (where each time, we assume none of the above happen):
+    \begin{enumerate}
+        \item $\Vc_d=\n\n\npl$ for any $d$: the problem is empty, and so unsolvable.
+        \item $\Vc_d=\npl\n\y$ for any $d$: the $d$-degree relaxation is a binary labelling problem of family or \textsf{I.b}, so $\Pi$ is unsolvable.
+        \item[$\bigstar$] If neither of the above happen, $\Pi$ is $1$-completable, and so solvable.
+        \item $\Vc_d=\npl\y\x$ for any $d$: the $d$-degree relaxation is a binary labelling problem of family \textsf{VI.a}, so $\Pi\in\tbound(n)$.
+        \item[$\bigstar$] If none of the above happen, $\Pi$ is $2$-completable, and so $O(\log n)$.
+        \item $\Vc_d=\y\x\xpl\cong \y\y\ypl$ for all $d$: we can take the trivial solution \airquotes{select no half-edges} in zero rounds, so $\Pi\in O(1)$.
+        \item All other cases: since $4$ is false we have at least one $\Vc_d$ of the form $\n\x\xpl$, we take the easiest such case, which is a problem where all degrees are unbounded except $d$ and $\Vc_d=\n\y\ypl$. We can take an instance of this problem $\Pi$ and split edges with a black node, creating an instance of binary labelling bipartite sinkless orientation problem; then this problem is $\tbound(\log n)$, and all problems of this form are $\lbound(\log n)$. Since they are also $2$-completable, they are $\tbound(\log n)$.
+    \end{enumerate}
+\end{proof}
+\begin{proof}
+    Let $\Pi=(\Set{\n,\y},\Vc,\y\y\n)$. Similar to the proof for \myref{thm:or}, if any of the $d$-degree restrictions of $\Pi$ are $\lbound(\log n)$ then $\Pi$ is $\lbound(\log n)$; assume none are. Then $\Vc_d$ has to be of the form $\y\xpl$ for each degree $d$, and the problem has a solution obtainable in zero rounds by selecting no edges.
+\end{proof}
+\subsection{Edge Selection problems}
+\subsubsection{Partial results}
+\begin{lem}\label{lem:es-lb-log}
+    Let $\Pi=(\Set{\n,\y},\Vc,\y\n\y)$ be an edge selection $(2,\Delta)\hLCEL$ for which $\exists d_1,d_2$ such that $\Vc_{d_1}=\n\xpl$ and $\Vc_{d_2}=\xpl\n$. Then $\Pi\in\lbound(\log n)$.
+\end{lem}
+\begin{proof}
+    Take the easiest problem in this class; that is, let $\Vc_{d_1}=\n\ypl$, $\Vc_{d_2}=\ypl\n$ and every other degree unconstrained.
+    
+    We colour every vertex of degree $d_1$ as white, every vertex of degree $d_2$ as black, and ignore all vertices that are uncoloured (which are unbounded) and all vertices that have a neighbour of the same colour (they can both select/not select the edge connecting them, after which they both become unbounded). We then have a properly two-coloured graph instance of a bipartite sinkless orientation problem (type \type{VI} or \type{VII}) which is $\lbound(\log n)$; since this problem is strictly easier, $\Pi$ is also $\lbound(\log n)$.
+\end{proof}
+\begin{lem}\label{lem:es-101}
+    Let $\Pi=(\Set{\n,\y},\Vc,\y\n\y)$ be an edge selection $(2,\Delta)\hLCEL$ for which $\exists d_0,d_1,d_2\leq\Delta$ such that $\Vc_{d_0}=\y\npl\y$, $\Vc_{d_1}=\n\xpl$ and $\Vc_{d_2}=\xpl\n$. Then $\Pi\in\lbound(n)$.
+\end{lem}
+\begin{proof}
+    We show that a deterministic algorithm $\mathcal{A}$ to colour $G$ requires at least $\frac{n}{4\Delta^2}$ rounds; assume this is false, and $\mathcal{A}$ can solve the problem in $r< \frac{n}{4\Delta^2}$.
+    
+    We define a \airquotes{star path} of degree $d_0$ and length $k$ as a graph composed of $k$ nodes of degree $d_0$ and $d_0k-2(k-1)$ leaves, which if all leaves are removed turns into a path of length $k$. Construct a graph $G$ by taking a node $v_1$ of degree $d_1$ and a node $v_2$ of degree $d_2$ connected by an edge and surrounded by $d_1+d_2-2$ leaves; then replace every edge of this graph by a star path of degree $d_0$ and length $k$. This graph has $n=(d_1+d_2-1)\cdot((d_0-2)k-2)$ nodes; since $d_0,d_1,d_2\leq \Delta$ we have $n\leq 2\Delta^2k\Rightarrow k\geq \frac{n}{2\Delta^2}>2r$.
+    
+    Consider any set of distinct IDs on the disjoint $r$-hop neighbourhoods of $v_1$ and $v_2$; in the output of $\mathcal{A}$ on $G$ with these IDs $v_1$ and $v_2$ have at least one adjacent selected and unselected segment respectively. Since the neighbourhoods are symmetrical, we permute the IDs so that the selected and unselected segments are both part of the star path connecting $v_1$ and $v_2$; this is a possible output of $\mathcal{A}$ on the half-edges adjacent to $v_1$ and $v_2$, but since each star path has to be fully selected or unselected, it is not a valid solution and $\mathcal{A}$ is wrong. Then $\Pi$ is $\lbound(n)$.
+\end{proof}
+
+\begin{lem}\label{lem:es-trim}
+    Let $\Pi=(\Set{\n,\y},\Vc,\y\n\y)$ be a $1$-completable edge selection $(2,\Delta)\hLCEL$ for which no $\Vc_d$ is of the form $\npl\x\x$ or $\x\npl\x$ and $\Vc_2\neq\n\y\n$. Then $\Pi\in O(\log n)$.
+\end{lem}
+\begin{proof}
+    We show an algorithm to solve $\Pi$ in $O(\log n)$ rounds.
+    
+    The conditions given on the degrees mean that each $d$-degree relaxation (for $d\neq 2$) is either $2$-completable or of the form $\x\x\npl$; label the vertices green or red respectively, then compute a rake-and-agree decomposition in $O(\log n)$ (\myref{lem:es-decomposition}). Then iterate through the layers in reverse order; in each round, vertices of the selected layer receive messages from each of their neighbours and label their edges as follows:
+    \begin{enumerate}
+        \item if their neighbour is from a layer with a higher index, they learn a solution for the edge between them; 
+        \item if their neighbour is from the same layer, they agree not to select the edge between them;
+        \item if their neighbour is from a layer with a lower index, they choose a solution for the edge between them.
+    \end{enumerate}
+    This procedure runs in $O(\log n)$ time; we show that the nodes can always choose a valid solution for edges type 3, meaning the algorithm is correct.
+    
+    Let $v\in V_k$: assume that $v$ is green, then $\deg(v)\leq 2$ in $G_k$ so $v$ has at most two edges of types 1 and 2: green nodes are $2$-completable, so $v$ can pick a solution that is compatible with those (at most) two edges and arbitrarily assign the other values to edges of type 3.
+
+    Assume that $v$ is red; then $\deg(v)=2$ in the graph $G_k$ iff it has a red neighbour of degree 2 in $G_k$, $\deg(v)\leq 1$ otherwise. This means that $v$ has at most one edge of type 1 and at most two edges of type 2, so it receives at most one selected edge from previous layers and at most two unselected edges from the same layer. Since its degree constraint is of the form $\y\y\x$ (degree 2) or $\x\y\n\npl$ it can always find a solution compatible with the provided edges and arbitrarily assign the other values to edges of type 3.
+\end{proof}
+\subsubsection{Main result}
+\begin{thm}\label{thm:es}
+    Edge selection problems are either unsolvable, $O(1)$, $\tbound(\log n)$, or $\tbound(n)$; with all the classes being non-empty. It is possible to decide which class a problem belongs to in time linear to the problem description size.
+\end{thm}
+\begin{proof}
+    Let $\Pi=(\Set{\n,\y},\Vc,\y\n\y)$. By \myref{lem:edgesel} we know that if $\Vc_1\in\Set{\n\n,\n\y,\y\n}$ then $\Pi$ is either $O(1)$ or unsolvable (and so $\lbound(\log n)$); consider the case where $\Vc_1=\y\y$. Similar to the proof for \myref{thm:or}, if any of the $d$-degree restrictions of $\Pi$ are $\lbound(\log n)$ then $\Pi$ is $\lbound(\log n)$; assume none are. Then $\Vc_d$ has to be of the form $\y\xpl$ or $\xpl\y$ for each degree $d$; consider the following cases (where each implies the negation of the above):
+    \begin{enumerate}
+        \item All $\Vc_d$ are of the form $\y\xpl$; then $\Pi$ has a zero-round solution of \airquotes{select no edges}.
+        \item All $\Vc_d$ are of the form $\xpl\y$; then $\Pi$ has a zero-round solution of \airquotes{select all edges}.
+        \item There is at least one $\Vc_{d_1}$ of the form $\npl\y$ and at least one $\Vc_{d_2}$ of the form $\x\xpl\n$: construct a tree with one node of degree $d_2$ in the middle, $d_2$ nodes of degree $d_1$ surrounding it, and $d_2(d_1-1)$ leaves; the nodes of degree $d_1$ force all half-edges to be unselected, but the middle node does not accept this solution, so the problem is unsolvable.
+        \item There is at least one $\Vc_{d_1}$ of the form $\y\npl$ and at least one $\Vc_{d_2}$ of the form $\n\xpl\x$: equivalent to case above.
+        \item[$\bigstar$] If none of the above happens, $\Pi$ is $1$-completable, so it is solvable. Additionally by \myref{lem:es-lb-log} $\Pi\in\lbound(\log n)$.
+        \item There is at least one $\Vc_{d_0}$ of the form $\y\npl\y$: assuming none of the above happen, $\Pi$ is solvable and we have at least one degree of the form $\n\x\xpl$ and one of the form $\x\xpl\n$; by \myref{lem:es-101} $\Pi\in\tbound(n)$.
+        \item $\Vc_2=\n\y\n$: the $2$-degree relaxation is a binary labelling problem of type \type{V}, so $\Pi\in\tbound(n)$.
+        \item There is at least one $\Vc_d$ of the form $\y\n\npl$ and one of the form $\npl\y\x$: take $d_1,d_2$ to be examples of both, then on biregular graphs $\Pi$ is a binary labelling problem of type \type{VI}, so $\Pi\in\tbound(n)$.  
+        \item There is at least one $\Vc_d$ of the form $\x\y\npl$: since none of the above happen, we know that no $\Vc_d$ is of the form $\npl\x\x$ or $\y\npl\y$; then by \myref{lem:es-trim} $\Pi\in O(\log n)$
+        \item There is at least one $\Vc_d$ of the form $\npl\y\x$: equivalent to the above.
+        \item[$\bigstar$] If none of the above happen, $\Pi$ is $2$-completable, and so by \myref{lem:2comp} and \myref{lem:es-lb-log} it is $\tbound(\log n).$\qedhere
+    \end{enumerate}
+\end{proof}
+\section{Hierarchy and unbounded degrees}
+%...honestly the most elegant way is to rewrite everything to consider the unbounded deg case since we don't really use the hypothesis
+% but i'd rather not do that so:
+We show the arguments above apply to the unbounded degree setting by constructing a hierarchy between classes with fixed $k$ and variable $\Delta$:
+\begin{lem}
+    Let $k,\Delta\in\N$; then $(k,\Delta)\hLCEL\subseteq (k,\Delta+1)\hLCEL$.
+\end{lem}
+\begin{proof}
+    We can consider every problem in $(k,\Delta)\hLCEL$ as a problem in $(k,\Delta+1)\hLCEL$ where $\Delta+1$ is an unbounded degree.
+\end{proof}
+\begin{defn}
+    We define the class of \emph{max degree LCEL} as
+    $$(k,\max)\hLCEL :=\lim_{\Delta\to+\infty}(k,\Delta)\hLCEL = \bigcup_{\Delta\in\N}(k,\Delta)\hLCEL$$
+    Following the intuition given by the inclusion and limit notations, we consider all problems in $(k,\max)\hLCEL$ to be defined on unbounded degree graphs.
+\end{defn}
+We do not use the notation $(k,\infty)\hLCEL$ for this class, as it is different than the class we obtain by simply using $\Delta=\infty$ in the definition of $(k,\Delta)\hLCEL$:
+\begin{defn}
+    We call $(k,\infty)\hLCEL$ the class of \emph{unbounded degree LCEL}.
+\end{defn}
+\begin{obs}
+    $(k,\max)\hLCEL\subsetneq (k,\infty)\hLCEL$: the first class only contains problems that are defined \airquotes{up to a certain degree} (meaning, $\exists\Delta\in\N$ such that every $D\geq\Delta$ is unbounded), while this restriction does not apply to the second class. We will see in the proof of \myref{thm:infclass} that these problems can be seen as limits of problems in $(k,\max)\hLCEL$; in that sense, we can consider $(k,\infty)\hLCEL$ to be the closure of $(k,\max)\hLCEL$.
+\end{obs}
+\begin{thm}\label{thm:maxclass}
+    Problems in $(2,\max)\hLCEL$ on trees are either unsolvable, $O(1)$, $\tbound(\log n)$, or $\tbound(n)$; none of those four classes are empty. Additionally, which class a problem belongs to can be determined in time linear to the size of the problem description.
+\end{thm}
+\begin{proof}
+    Since every problem in $(2,\max)\hLCEL$ can be interpreted as a problem in $(2,\Delta)\hLCEL$ for some $\Delta\in\N$, we can use \myref{thm:class} to classify it.
+\end{proof}
+\begin{thm}\label{thm:infclass}
+    Problems in $(2,\infty)\hLCEL$ on trees are either unsolvable, $O(1)$, $\tbound(\log n)$, or $\tbound(n)$; none of those four classes are empty and we can determine which class a problem belongs to. %"in poly time" loses a bit of meaning when the problem is infinity size
+\end{thm}
+\begin{proof}
+    Consider a problem $\Pi\in(2,\infty)\hLCEL$ on trees; let $\Pi_k$ be the $\max n$ degree relaxation of it. %which i haven't defined yet but is obvious
+    We claim that:
+    \begin{enumerate}%abusing the notation a bit here I can fix it later
+        \item $\exists k\in\N: \Pi_k\in\Omega(f(n))\Rightarrow \Pi\in\Omega(f(n))$
+        \item $\forall k\in\N: \Pi_k\in O(f(n))\Rightarrow \Pi\in O(f(n))$
+    \end{enumerate}
+    The first one is trivial; since all $\Pi_k$ are strictly easier than $\Pi$, their lower bounds apply to $\Pi$. The second relies on the fact that given any graph $G$ with $n$ nodes we can give an upper bound on the max degree of $G$ as $\Delta\leq n-1$; then any algorithm that solves $\Pi_{n-1}$ solves $\Pi$ on $G$, and since all nodes start out knowing $n$ we can build an algorithm that runs the appropriate algorithm between all the $O(f(n))$ ones solving the problems $\Pi_k$. %rewrite this using worst case scenario? is it even true?
+
+    Finally, we observe that by \myref{thm:maxclass} we have tight complexities for each of the problems $\Pi_k$, and since they're all restrictions of the previous problems, their tight complexities form a weakly increasing sequence; then the limit of these complexities exists and is exactly the complexity of $\Pi$. Since these complexities lie in a set of isolated points, their limit is also one of these points; meaning $\Pi$ is either unsolvable, $O(1)$, $\Theta(\log n)$, or $\Theta(n)$. Since $(k,\max)\hLCEL\subsetneq(k,\infty)\hLCEL$ these classes are also nonempty. %NOTE: this implicitly relies on the fact that none of the complexities given are dependant on Delta. 
+    % TO ASK: technically, this makes an algorithm that requires "infinite information", that is, changes based on n in infinite ways. Though so does any non-constant LOCAL algorithm... i think the argument here is safe as really, there's only like 4 different possible algorithms (two trivial ones, random pick and uniform pick; one logn one, rake and agree, and a global one, just look at everything)
+    % maybe I should study if every logn problem in all of the paper can be solved by rake and agree, but even if it isn't at most it's rake and agree+perfect match or smth like that
+    % TO ASK: can the underlying algorithm (that gets computed by the nodes only) have infinite information? pretty sure the answer is yes but i should check. can you have a noncomputable function as the underlying algorithm? (countably infinite finite graphs -> can be numbered -> can have a problem that is "output f(n) on every node" for n the graph number and f uncomputable)
+\end{proof}
+\section{The labelling and hypergraph settings}
+We can further extend the theory developed to the case of LC(E)L with input labels. The extension is very natural as long as no restrictions are put on the input labelling; for a case where such restrictions exist, we study the hypergraph setting with two labels on trees as special cases of an input labelling $(2,\Delta)\hLCEL$ of the edge selection type.
+\begin{defn}
+    We call a $(k,\Delta)\hLCEIL$ (LCEL + Input) a problem described by a tuple $(\Sigma_I,\Sigma_O,\sigma,\Ec)$ where:
+    \begin{itemize}
+        \item $\Sigma_I$ is an alphabet of input labels,
+        \item $\Sigma_O$ is an alphabet of size $k$ of output labels,
+        \item $\sigma$ is a parametrised set of functions $\sigma_i:\Sigma_I\to\Sigma_O^{\multiSet{i}}$ for all $1\leq i\leq\Delta$, and
+        \item $\Ec$ is a set of unordered pairs of elements of $\Sigma$.
+    \end{itemize}
+    An \emph{instance} of this problem is a graph $G=(V,E)$ such that $\deg(v)\leq\Delta$ for all $v\in V$ together with a labelling $\rho:V\to\Sigma_I$; a solution is a half-edge labelling such that
+    \begin{itemize}
+        \item for each $v\in V$ we have $\beta(v):=\multiSet{\beta(v,\Set{u,v})\dv (v,\Set{u,v})\in H_G}\in\sigma_{\deg(v)}(\rho(v))$, and
+        \item for each $\Set{u,v}\in E$ we have $\beta(\Set{u,v}):=\multiSet{\beta(u,\Set{u,v}),\beta(v,\Set{u,v})}\in\Ec$.
+    \end{itemize}
+\end{defn}
+%all the results before hold if you consider "pairs of labels and degree" instead of just "degree" but i'm not sure how to say that nicely
+%so for now I'm just skipping to hypergraphs! I'll fix this at some point. probably.
+Consider a hypergraph: we can define problems on hypergraphs (hypertrees?) by having $\Ec$ be a set of multisets like $\Vc$ in the original definition. However, we can also treat it as a special case of an edge selection $\LCEL$ by labelling each node \airquotes{white} and adding a \airquotes{black} node in the middle of every edge. With the framework above, we lose the information that our labelling is actually a proper 2-colouring; it can provide an upper bound, but not necessarily a lower bound.
+%currently stuck on a square case.
+\section{General graphs}
+Let us now move away from trees and to general graphs. Observe that this can only make the problem harder; we can consider the problem on trees to be a complexity lower bound for the one on general graphs. However our algorithms for 1 and 2-completable problems fail (notably, none of the trivial algorithms do); we will study the three possible cases where a problem is \emph{strictly} harder on general graphs that on trees. %and hopefully give equiv conditions to all of them! hopefully!
+\subsection{Logarithmic to unsolvable}
+Problems we have shown to be $\Theta(\log n)$ are either $2$-completable or could be solved with the rake-and-agree procedure. Consider a problem that is $2$-completable; when is it unsolvable on general graphs?
+
+We can give a simple example: $\Vc_7=\n\n\n\n\n\y\n\n,\Ec=\y\y\n$ is $2$-completable, yet completely unsolvable on $K_8$, since every vertex requires exactly 5 adjacent selected half-edges (total of $8\cdot 5=40$) but each of the $\frac{8\cdot9}{2}=36$ edges can select at most one half-edge.
+
+Another simple example: $\Vc_4=\n\n\y\n\n,\Ec=\y\n\y$ on $K_5$ requires both an odd number of selected half-edges (since each of the 5 vertices wants 3 adjacent half-edges) and an even number of selected half-edges (each edge can only select $0$ or $2$ half-edges).
+
+Problems that could be solved by rake-and-agree can also become unsolvable. Example: perfect matching on $K_5$.
+\subsection{Logarithmic to global}
+%can this happen?? %probably not! Can I prove it?
+
+\subsection{Global to unsolvable}
+We already have a very simple example of global problem that becomes unsolvable on general graphs: 2 colouring (on odd cycles).
+
+
+\section{Wall of Spaghetti}
+aka: where I throw spaghetti at the wall and see what sticks, aka: idea and notes section
+
+Round eliminations: solvability version! 
+PROVABLE CLAIM: solvability on bounded-degree graphs is decidable, because I can prove that for each unsolvable edge-label problem with $k$ labels there is an unsolvable tree instance of depth $\leq 2^{2^k}$.
+
+(meaning we can do exahustive search, but really, the proof gives a better algorithm than exahustive search, even if it's still horribly exponential)
+
+CLAIM (unsure if true/provable so far): solvability is decidable for all finitely describable problems, that is
+\begin{defn}
+    We define a \emph{finitely describable edge problem} (FDE problem) 
+\end{defn}
+PROBLEMS WITH FDE DEFINITION: would have been nice to just use a function $f(\sigma,d)$ but it doesn't capture the "finitely many types of node". 
+
+
+% look at the rooted tree paper in detail
+% at some point you do need to figure out the Change Pettie proof
+% investigate the O(1) << problem on trees
+
+% Define the "finitely describable problems" properly; try to get the proof together for their solvability algorithm
+% also write out the bounded deg one. maybe? it's really just a specific case of the above but it is easier
+
+CLAIM: given $\Pi\in(k,\Delta)\hLCEL$ we can decide if $\Pi\in O(\log n)$ or $\Pi\in n^{\Omega(1)}$.
+\begin{proof}
+    High-level idea: we construct a $\Pi'\in(k,2)\hLCEL$ with input labels and show that $\Pi'\in O(\log^*n)\iff \Pi\in O(\log n)$;% if we further assume that $\Pi$ is not verbose, $\Pi\in n^{\Omega(1)}\iff \Pi'\in\Theta(n)$.
+
+    We define $\Pi'$ as follows: 
+\end{proof}
+\end{document}

@@ -1,0 +1,28 @@
+\begin{table}[th]
+    \centering
+    \begin{tabular}{|c|cc|cc|cc|cc|}
+        \hline
+        Family & \multicolumn{2}{c|}{$\n\n$} & \multicolumn{2}{c|}{$\y\n$} & \multicolumn{2}{c|}{$\n\y$} & \multicolumn{2}{c|}{$\y\y$} \\
+        \hline
+        \textsf{I.a}   & \textbf{(UN)} & B1.a & \textbf{(UN)} & B1.a & \textbf{(UN)} & B1.a & \textbf{(UN)} & B1.a\\
+        \textsf{I.b}   & \textbf{(UN)} & B1.b & \textbf{(UN)} & B1.b & \textbf{(UN)} & B1.b & \textbf{(UN)} & B1.b\\
+        \textsf{I.c}   & \textbf{(UN)} & B1.c & \textbf{(UN)} & B1.c & \textbf{(UN)} & B1.c & \textbf{(UN)} & B1.c\\
+        \textsf{I.d}   & \textbf{(UN)} & B1.d & \textbf{(UN)} & B1.d & \textbf{(UN)} & B1.d & \textbf{(UN)} & B1.d\\
+        \textsf{II.a}  & \textbf{(UN)} & B2.a & \textbf{(UN)} & B2.a & \textbf{(UN)} & B2.a & \textbf{(UN)} & B2.a\\
+        \textsf{II.b}  & \textbf{(UN)} & B2.b & \textbf{(UN)} & B2.b & \textbf{(UN)} & B2.b & \textbf{(UN)} & B2.b\\
+        \textsf{III.a} & \textbf{(UN)} & B3.a & & & & & \boldmath$O(1)$ & B3.a\\
+        \textsf{III.b} & \textbf{(UN)} & B3.b & \boldmath$O(1)$ & B3.b & \boldmath$O(1)$ & B3.b & \boldmath$O(1)$ & B3.b\\
+        \textsf{IV.a}  & \textbf{(UN)} & B4.a & \boldmath$O(1)$ & B4.a & & & \boldmath$O(1)$ & B4.a\\
+        \textsf{IV.b}  & \textbf{(UN)} & B4.b & & & \boldmath$O(1)$ & B4.b & \boldmath$O(1)$ & B4.b\\
+        \textsf{V.a}   & \textbf{(UN)} & B5.a & \textbf{(UN)} & F2.a & \textbf{(UN)} & F2.b & \boldmath$\Theta(n)$ & B5.a\\
+        \textsf{V.b}   & \textbf{(UN)} & B5.b & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B5.b\\
+        \textsf{VI.a} ($\colr{0^+}\y\n$)  & \textbf{(UN)} & B6.a & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B6.a\\
+        \textsf{VI.a} ($\colr{0^+}\y\y$)  & \textbf{(UN)} & B6.a & \textbf{(UN)} & F1.a & \boldmath$\Theta(n)$ & G1.b & \boldmath$\Theta(n)$ & B6.a\\
+        \textsf{VI.b} ($\n\y\colr{0^+}$) & \textbf{(UN)} & B6.b & \textbf{(UN)} & F1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B6.b\\
+        \textsf{VI.b} ($\y\y\colr{0^+}$) & \textbf{(UN)} & B6.b & \boldmath$\Theta(n)$ & G1.a & \textbf{(UN)} & F1.b & \boldmath$\Theta(n)$ & B6.b\\
+        \textsf{VII.a}   & \textbf{(UN)} & B7.a & & & & &\boldmath$\Theta(\log n)$& B7.a \\
+        \hline
+    \end{tabular}
+    \caption{Complete lookup table based on the families from \cite{balliu-2019}.}
+    \label{tab:lookup}
+\end{table}

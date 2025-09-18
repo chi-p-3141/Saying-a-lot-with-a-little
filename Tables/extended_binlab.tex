@@ -1,0 +1,47 @@
+\begin{table}[th]
+    \centering
+    \begin{tabularx}{0.95\textwidth}{llllX}
+    \toprule
+    \shortstack[l]{Type\\\phantom{t}} & \shortstack[l]{Problem\\family} & \shortstack[l]{White\\constraint} & \shortstack[l]{Black\\constraint} & \textbf{\shortstack[l]{Deterministic\\complexity}}\\
+    \midrule
+    \type{I} & \textsf{I.a} & $\y\n\npl$ & $\n\x\xpl$ & \textbf{unsolvable}\\
+    & \textsf{I.b} & $\n\npl\y$ & $\x\xpl\n$ & \\
+    & \textsf{I.c} & $\n\x\xpl$ & $\y\n\npl$ & \\
+    & \textsf{I.d} & $\x\xpl\n$ & $\n\npl\y$ & \\
+    \addlinespace
+    \type{II} & \textsf{II.a} & $\n\n\npl$ & $\x\x\xpl$ & \\
+    & \textsf{II.b} & $\x\x\xpl$ & $\n\n\npl$ & \\
+    \midrule
+    \type{III} & \textsf{III.a} & non-empty & $\y\y\ypl$ & \boldmath$O(1)$ \\
+    & \textsf{III.b} & $\y\y\ypl$ & non-empty & \\
+    \addlinespace
+    \type{IV} & \textsf{IV.a} & $\y\x\xpl$ & $\y\x\xpl$ & \\
+    & \textsf{IV.b} & $\x\xpl\y$ & $\x\xpl\y$ & \\
+    \midrule
+    \type{V} & \textsf{V.a} & $\y\npl\y$ & $\n\y\n$ & \boldmath$\Theta(n)$ \\
+    & \textsf{V.b} & $\n\y\n$ & $\y\npl\y$ & \\
+    \addlinespace
+    \type{VI} & \textsf{VI.a} & $\npl\y\x$ & $\x\y\npl$ & \\
+    & \textsf{VI.b} & $\x\y\npl$ & $\npl\y\x$ & \\
+    \midrule
+    \type{VII} & \textsf{VII.a} & \multicolumn{2}{l}{$(2,1)$-resilient} & \boldmath$\Theta(\log n)$ \\
+    & \textsf{VII.b} & \multicolumn{2}{l}{$(1,2)$-resilient} & \\
+    % VIII: hypergraph matching equiv
+    \addlinespace
+    \type{VIII} & \textsf{VIII.a} & $\y\npl\y$ & $\n\y\n\npl$ \\
+    & \textsf{VIII.b} & $\y\npl\y$ & $\n\npl\y\n$ & \\
+    & \textsf{VIII.c} & $\n\y\n\npl$ & $\y\npl\y$ & \\
+    & \textsf{VIII.d} & $\n\npl\y\n$ & $\y\npl\y$ & \\
+    % IX: bipartite matching equiv
+    \addlinespace
+    \type{IX} & \textsf{IX.a} & $\x\y\n\npl$ & $\n\y\n\npl$ & \\
+    & \textsf{IX.b} & $\n\y\n\npl$ & $\x\y\n\npl$ & \\
+    % X: edge grabbing
+    \addlinespace
+    \type{X}  & \textsf{X.a}  & $\n\y\n\npl$ & $\y\y\n$ & \\
+    & \textsf{X.b} & $\y\y\n$ & $\n\y\n\npl$ & \\
+    \bottomrule
+    \end{tabularx}
+    \caption{Extended \cite[Table 3]{balliu-2019}.}
+    \label{tab:ext_binlab}
+\end{table}

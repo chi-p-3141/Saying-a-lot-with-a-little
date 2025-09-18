@@ -1,0 +1,55 @@
+% page format
+\geometry{a4paper, total={170mm,257mm}, left=15mm, top=20mm}
+
+% table format
+%\renewcommand{\arraystretch}{1.25}
+\newcolumntype{Y}{>{\centering\arraybackslash}X} % centered X cell
+
+% better exists symbol
+\let\oldexists\exists
+\renewcommand{\exists}{\oldexists\,}
+
+% color format
+\definecolor{darkred}{rgb}{0.5, 0.0, 0.0}
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+
+% type format
+\newcommand{\type}[1]{\textup{\textbf{\textsf{\color{gray}#1}}}} % textup is for removing warning when in an italics environment (like amsthm theorems)
+
+% theorem format
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem*{thm*}{Theorem}
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem*{lem*}{Lemma}
+
+\theoremstyle{remark}
+\newtheorem*{obs}{Observation}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+
+% link format
+\hypersetup{%
+    pdfborder = {0 0 0}
+}
+
+% references format
+\Crefname{thm}{Theorem}{Theorems}
+\Crefname{cor}{Corollary}{Corollaries}
+\newcommand{\myref}[1]{[\Cref{#1}]}
+
+% complexity/amsthm (italics) interaction "fix"
+\renewcommand{\lang}[1]{\textsc{#1}}
+\newcommand{\langthm}[1]{\emph{\textsc{#1}}}
+
+% parskip/amsthm interaction "fix"
+\makeatletter
+    \@for\theoremstyle:=definition,remark,plain\do{%
+        \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+            \addtolength\thm@preskip\parskip
+            }%
+        }
+\makeatother
+\AtBeginEnvironment{proof}{\vspace{-\parskip}}

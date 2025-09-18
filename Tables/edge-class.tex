@@ -1,0 +1,42 @@
+\begin{table}[th]
+    \centering
+    \begin{tabularx}{0.9\textwidth}{llclX}
+    \toprule
+    Symbol & Name & $\Ec$ & \multicolumn{2}{l}{\textbf{Complexity}}\\
+    \midrule
+    \type{U} & Empty & $\n\n\n$ & \uns & \\
+    \addlinespace
+    \type{AW} & All White & $\y\n\n$ & \triv & if all $\Vc_i$ are of the form $\y\x\xpl$\\
+    &&&\uns & else\\
+    \addlinespace
+    \type{OR} & Orientation & $\n\y\n$ & \uns & if $\Vc_1\in\Set{\n\n,\n\y,\y\n}$ \\
+    &&&\unk & if $\Vc=\y\y$\\
+    \addlinespace
+    \type{AB} & All Black&$\n\n\y$ & \triv & if all $\Vc_i$ are of the form $\x\xpl\y$ \\
+    &&&\uns&else \\
+    \addlinespace
+    \type{EG}& Edge Grabbing&$\y\y\n$ &\uns& if $\Vc_1\in\Set{\n\n,\n\y}$\\
+    %&&&\uns& if $\Vc_1=\y\n$ and there is at least one $\Vc_i$ of the form $\n\x\xpl$ \\
+    %&& & \triv & if all $\Vc_i$ are of the form $\y\xpl$\\
+    &&&\unk & if $\Vc_1\in\Set{\y\n,\y\y}$\\
+    \addlinespace
+    \type{ES}&Edge Selection &$\y\n\y$ & \uns & if $\Vc_1=\n\n$ \\
+    %&&& \triv & if all $\Vc_i$ are of the form $\y\xpl$\\
+    %&&& \uns  & if $\Vc_1=\y\n$ and the above is not true\\
+    %&&& \triv & if all $\Vc_i$ are of the form $\xpl\y$\\
+    %&&& \uns  & if $\Vc_1=\n\y$ and the above is not true\\
+    &&& \triv\textbf{/}\uns & if $\Vc_1\in\Set{\n\y,\y\n}$\\
+    &&& \unk & if $\Vc_1=\y\y$\\
+    \addlinespace
+    \type{ER}& Edge Releasing &$\n\y\y$ &\uns& if $\Vc_1\in\Set{\n\n,\y\n}$\\
+    %&&&\uns& if $\Vc_1=\n\y$ and there is at least one $\Vc_i$ of the form $\x\xpl\n$ \\
+    %&&& \triv & if all $\Vc_i$ are of the form $\xpl\y$\\
+    &&& \unk & if $\Vc_1\in\Set{\n\y,\y\y}$\\
+    \addlinespace
+    \type{LT} & Locally Trivial&$\y\y\y$ & \triv & if all $\Vc_i$ are non-empty \\
+    &&&\uns&else \\
+    \bottomrule
+    \end{tabularx}
+    \caption{Classification of $(2,\Delta)\hLCEL$ problems by $\Ec$.}
+    \label{tab:edge-class}
+\end{table}
